@@ -20,8 +20,7 @@ def filter_datum(fields: List[str], redaction: str, message: str,
 
     The function returns a new string with replaced fields if any.
     """
-    new = message
-    for i in range(len(fields)):
-        pat = ((new.split(fields[i] + '='))[1].split(separator))[0]
-        new = re.sub(fields[i] + '=' + pat, fields[i] + '=' + redaction, new)
-    return(new)
+    for field in fields:
+        pat = field + '=[^{}]*'.format(separator)
+        message = re.sub(pat, field + '=' + redaction, message)
+    return(message)
