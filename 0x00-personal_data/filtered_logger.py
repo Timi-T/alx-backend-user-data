@@ -13,8 +13,9 @@ def filter_datum(fields: List[str], redaction: str, message: str,
                  separator: str) -> str:
     """Function to obfuscate logs"""
     for field in fields:
-        message = re.sub(field + '=[^{}]*'.format(separator), field + '=' + redaction, message)
-    return(message)
+        pat = field + '=[^{}]*'.format(separator)
+        message = re.sub(pat, field + '=' + redaction, message)
+    return message
 
 
 class RedactingFormatter(logging.Formatter):
@@ -26,6 +27,7 @@ class RedactingFormatter(logging.Formatter):
     SEPARATOR = ";"
 
     def __init__(self, fields: List[str]):
+        """Constructor mmethod for class"""
         super(RedactingFormatter, self).__init__(self.FORMAT)
         
 
