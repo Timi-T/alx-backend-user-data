@@ -35,7 +35,7 @@ def get_logger() -> logging.Logger:
     return user_data
 
 
-def get_db():
+def get_db() -> mysql.connector.connection.MySQLConnection:
     """Get a conector object to a database"""
     db = mysql.connector.connect(
         host=os.getenv("PERSONAL_DATA_DB_HOST"),
@@ -65,4 +65,3 @@ class RedactingFormatter(logging.Formatter):
         formatter = logging.Formatter(self.FORMAT)
         record.msg = filter_datum(list(self.fields), '***', record.msg, ';')
         return formatter.format(record)
-print(get_db())
