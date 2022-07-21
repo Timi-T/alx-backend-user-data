@@ -29,7 +29,10 @@ class RedactingFormatter(logging.Formatter):
     def __init__(self, fields: List[str]):
         """Constructor mmethod for class"""
         super(RedactingFormatter, self).__init__(self.FORMAT)
-        
+        self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
-        NotImplementedError
+        """Format output for logging"""
+        formatter = logging.Formatter(self.FORMAT)
+        record.msg = filter_datum(list(self.fields), '***', record.msg, ';')
+        return formatter.format(record)
