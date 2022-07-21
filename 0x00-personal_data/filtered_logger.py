@@ -11,19 +11,9 @@ from typing import List
 
 def filter_datum(fields: List[str], redaction: str, message: str,
                  separator: str) -> str:
-    """
-    Function to obfuscate logs
-
-    fields: A list of fields in the log to be replaced
-    redaction: String to replace field
-    message: A line of log
-    separator: String that separate each field
-
-    The function returns a new string with replaced fields if any.
-    """
+    """Function to obfuscate logs"""
     for field in fields:
-        pat = field + '=[^{}]*'.format(separator)
-        message = re.sub(pat, field + '=' + redaction, message)
+        message = re.sub(field + '=[^{}]*'.format(separator), field + '=' + redaction, message)
     return(message)
 
 
