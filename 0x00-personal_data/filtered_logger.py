@@ -4,7 +4,9 @@ Module to obfuscate logs to protect person data
 """
 
 
+import mysql.connector
 import logging
+import os
 import re
 from typing import List
 
@@ -31,6 +33,17 @@ def get_logger() -> logging.Logger:
     handler.setFormatter(formatter)
     user_data.addHandler(handler)
     return user_data
+
+
+def get_db():
+    """Get a conector object to a database"""
+    db = mysql.connector.connect(
+        host=os.getenv("PERSONAL_DATA_DB_HOST"),
+        user=os.getenv("PERSONAL_DATA_DB_USERNAME"),
+        password=os.getenv("PERSONAL_DATA_DB_PASSWORD"),
+        database=os.getenv("PERSONAL_DATA_DB_NAME")
+    )
+    return db
 
 
 class RedactingFormatter(logging.Formatter):
