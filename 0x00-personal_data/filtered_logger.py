@@ -65,3 +65,4 @@ class RedactingFormatter(logging.Formatter):
         formatter = logging.Formatter(self.FORMAT)
         record.msg = filter_datum(list(self.fields), '***', record.msg, ';')
         return formatter.format(record)
+print(get_db())
