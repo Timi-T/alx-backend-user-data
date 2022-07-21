@@ -26,7 +26,8 @@ def filter_datum(fields: List[str], redaction: str, message: str,
 def get_logger() -> logging.Logger:
     """Function to get a logger"""
 
-    user_data = logging.Logger(name='user_data').setLevel(logging.INFO)
+    logging.Logger(name='user_data').setLevel(logging.INFO)
+    user_data = logging.getLogger('user_data')
     user_data.propagate = False
     formatter = RedactingFormatter(PII_FIELDS)
     handler = logging.StreamHandler()
@@ -44,6 +45,19 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         database=os.getenv("PERSONAL_DATA_DB_NAME")
     )
     return db
+
+
+def main():
+    """Main function that retrieve logs from a database"""
+
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users;")
+    for row in cursor:
+        logger = get_logger()
+        print(row)
+    cursor.close()
+    db.close()
 
 
 class RedactingFormatter(logging.Formatter):
@@ -65,3 +79,7 @@ class RedactingFormatter(logging.Formatter):
         formatter = logging.Formatter(self.FORMAT)
         record.msg = filter_datum(list(self.fields), '***', record.msg, ';')
         return formatter.format(record)
+
+
+if __name__ == "__main__":
+    main()
