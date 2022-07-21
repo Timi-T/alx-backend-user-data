@@ -1,4 +1,4 @@
-#!usr/bin/env python3
+#!/usr/bin/env python3
 """
 Module to obfuscate logs to protect person data
 """
@@ -19,7 +19,8 @@ def filter_datum(fields: List[str], redaction: str, message: str,
 
 
 class RedactingFormatter(logging.Formatter):
-    """ Redacting Formatter class
+    """ 
+    Redacting Formatter class
         """
 
     REDACTION = "***"
