@@ -53,9 +53,15 @@ def main():
     db = get_db()
     cursor = db.cursor()
     cursor.execute("SELECT * FROM users;")
+    titles = [title[0] for title in cursor.description]
     for row in cursor:
-        logger = get_logger()
-        print(row)
+        msg = ''
+        for title, row_info in zip(titles, row):
+            msg += "{}={};".format(title, row_info)
+        record = logging.LogRecord("user_data", logging.INFO, None, None,
+                                   msg, None, None)
+        formatter = RedactingFormatter(titles)
+        print(formatter.format(record))
     cursor.close()
     db.close()
 
