@@ -16,8 +16,8 @@ def status() -> str:
 
 @app_views.route('/unauthorized', methods=['GET'], strict_slashes=False)
 def unauthorized() -> str:
-  """Call the error handler for unauthorized requests"""
-  return abort(401)
+    """Call the error handler for unauthorized requests"""
+    return abort(401)
 
 
 @app_views.route('/forbidden', methods=['GET'], strict_slashes=False)
