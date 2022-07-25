@@ -3,7 +3,7 @@
 Basic Authentication module
 """
 
-from typing import Tuple
+from typing import TypeVar
 from api.v1.auth.auth import Auth
 import base64
 
@@ -51,3 +51,24 @@ class BasicAuth(Auth):
         if len(credentials) == 1:
             return (None, None)
         return (credentials[0], credentials[1])
+
+    def user_object_from_credentials(
+                                        self,
+                                        user_email: str,
+                                        user_pwd: str
+                                    ) -> TypeVar('User'):
+        """Get user object from the database"""
+        from models.user import User
+        if not isinstance(user_email, str):
+            return None
+        if not isinstance(user_pwd, str):
+            return None
+        user = User()
+        current_user = user.search({'email': user_email})
+        if not current_user:
+            return None
+        valid_password = (current_user[0]).is_valid_password(user_pwd)
+        if valid_password:
+            return current_user[0]
+        else:
+            return None
