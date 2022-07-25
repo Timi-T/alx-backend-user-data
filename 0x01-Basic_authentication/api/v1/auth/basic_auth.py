@@ -4,6 +4,7 @@ Basic Authentication module
 """
 
 from api.v1.auth.auth import Auth
+import base64
 
 
 class BasicAuth(Auth):
@@ -20,3 +21,18 @@ class BasicAuth(Auth):
         if (check_basic)[0] != 'Basic':
             return None
         return check_basic[1]
+
+    def decode_base64_authorization_header(
+                                            self,
+                                            base64_authorization_header: str
+                                            ) -> str:
+        """Decode Base 64 string"""
+        if not base64_authorization_header:
+            return None
+        if not isinstance(base64_authorization_header, str):
+            return None
+        try:
+            decoded = base64.b64decode(base64_authorization_header)
+            return decoded.decode('utf-8')
+        except Exception:
+            return None
