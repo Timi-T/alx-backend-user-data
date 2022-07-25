@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Basic Authentication module
+Authentication module
 """
 
 from flask import request
@@ -30,8 +30,3 @@ class Auth():
     def current_user(self, request=None) -> TypeVar('User'):
         """Current user"""
         return None
-
-
-class BasicAuth(Auth):
-    """Basic authentication class"""
-    pass
