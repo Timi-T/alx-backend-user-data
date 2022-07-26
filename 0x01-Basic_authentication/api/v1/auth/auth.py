@@ -4,6 +4,7 @@ Authentication module
 """
 
 from flask import request
+import re
 from typing import List, TypeVar
 
 
@@ -14,6 +15,13 @@ class Auth():
         """Check if path requires authentication"""
         if not path or not excluded_paths:
             return True
+        for ex_path in excluded_paths:
+            if ex_path[-1] == '*':
+                pat = ex_path.split('*')
+                pat = pat[0] + '.*'
+                match = re.search(pat, path)
+                if match:
+                    return False
         if path[-1] != '/':
             path = path + '/'
         if path in excluded_paths:
