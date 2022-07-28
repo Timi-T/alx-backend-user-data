@@ -29,7 +29,7 @@ class SessionDBAuth(SessionExpAuth):
             created = datetime.strptime(created, "%Y-%m-%dT%H:%M:%S")
             exp_date = created + timedelta(seconds=self.session_duration)
             user_id = session.get('user_id')
-            if exp_date - datetime.now() < timedelta(hours=-1, seconds=0):
+            if exp_date - datetime.now() < timedelta(seconds=0):
                 return None
             else:
                 return user_id
