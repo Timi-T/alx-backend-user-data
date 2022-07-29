@@ -20,7 +20,6 @@ class SessionDBAuth(SessionExpAuth):
         return session_id
 
     def user_id_for_session_id(self, session_id=None):
-        """Get a user id from database using session id"""
         UserSession.load_from_file()
         sessions = UserSession.search({'session_id': session_id})
         if sessions:
@@ -38,3 +37,4 @@ class SessionDBAuth(SessionExpAuth):
     def destroy_session(self, request=None):
         """Destroy a user session"""
         super().destroy_session(request)
+        UserSession.save_to_file()
