@@ -22,6 +22,7 @@ class SessionDBAuth(SessionExpAuth):
         return session_id
 
     def user_id_for_session_id(self, session_id=None):
+        """Get user id for a a session id"""
         UserSession.load_from_file()
         sessions = UserSession.search({'session_id': session_id})
         if sessions:
