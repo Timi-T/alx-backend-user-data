@@ -14,6 +14,8 @@ class SessionDBAuth(SessionExpAuth):
 
     def create_session(self, user_id=None):
         """Create and stores a data for each session"""
+        if not user_id:
+            return None
         session_id = super().create_session(user_id)
         session = UserSession(**{'user_id': user_id, 'session_id': session_id})
         session.save()
