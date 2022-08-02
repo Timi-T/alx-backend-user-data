@@ -43,7 +43,7 @@ class DB:
             self._session.commit()
             return self._session.query(User).filter_by(email=email).first()
 
-    def find_user_by(self, **kwargs: Dict):
+    def find_user_by(self, **kwargs: Dict) -> User:
         """Method to find a user using keyword filters"""
         attr = ['id', 'email', 'hashed_password', 'session_id', 'reset_token']
         for k, v in kwargs.items():
