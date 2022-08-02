@@ -34,12 +34,13 @@ class DB:
 
     def add_user(self, email: str, hashed_password: str) -> User:
         """Method to add a user to the database"""
-        user = User()
-        user.email = email
-        user.hashed_password = hashed_password
-        self._session.add(user)
-        self._session.commit()
-        return self._session.query(User).filter_by(email=email).first()
+        if email and hashed_password:
+            user = User()
+            user.email = email
+            user.hashed_password = hashed_password
+            self._session.add(user)
+            self._session.commit()
+            return self._session.query(User).filter_by(email=email).first()
 
     def find_user_by(self, **kwargs: Dict):
         """Method to find a user using keyword filters"""
@@ -53,12 +54,11 @@ class DB:
         try:
             user = self.find_user_by(id=user_id)
             for k, v in kwargs.items():
-                    if hasattr(user, k):
-                        setattr(user, k, v)
-                    else:
-                        raise ValueError
+                if hasattr(user, k):
+                    setattr(user, k, v)
+                else:
+                    raise ValueError
             self._session.add(user)
             self._session.commit()
-            self._session.close_all()
         except NoResultFound:
             raise ValueError
