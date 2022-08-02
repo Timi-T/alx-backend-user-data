@@ -38,6 +38,7 @@ class DB:
         user.email = email
         user.hashed_password = hashed_password
         self._session.add(user)
+        self._session.commit()
         return self._session.query(User).filter_by(email=email).first()
 
     def find_user_by(self, **kwargs: Dict):
