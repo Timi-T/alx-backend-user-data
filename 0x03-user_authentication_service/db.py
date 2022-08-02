@@ -60,5 +60,5 @@ class DB:
                     raise ValueError
             self._session.add(user)
             self._session.commit()
-        except InvalidRequestError:
+        except Exception:
             raise ValueError
