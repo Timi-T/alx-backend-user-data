@@ -60,5 +60,6 @@ class DB:
                     raise ValueError
             self._session.add(user)
             self._session.commit()
-        except NoResultFound:
             return None
+        except NoResultFound:
+            raise ValueError
