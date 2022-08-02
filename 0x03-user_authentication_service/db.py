@@ -32,15 +32,13 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str) -> TypeVar('User'):
+    def add_user(self, email: str, hashed_password: str) -> User:
         """Method to add a user to the database"""
         user = User()
         user.email = email
         user.hashed_password = hashed_password
-        self.__session.add(user)
-        self.__session.commit()
-        self.__session.close_all()
-        return self.__session.query(User).filter_by(email=email).first()
+        self._session.add(user)
+        return self._session.query(User).filter_by(email=email).first()
 
     def find_user_by(self, **kwargs: Dict):
         """Method to find a user using keyword filters"""
