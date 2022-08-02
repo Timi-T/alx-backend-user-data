@@ -45,13 +45,14 @@ class DB:
 
     def find_user_by(self, **kwargs: Dict):
         """Method to find a user using keyword filters"""
-        try:
-            user = self._session.query(User).filter_by(**kwargs).first()
-            if not user:
-                raise NoResultFound
-            return user
-        except Exception:
-            raise InvalidRequestError
+        attr = ['id', 'email', 'hashed_password', 'session_id', 'reset_token']
+        for k, v in kwargs.items():
+            if k not in attr:
+                raise InvalidRequestError
+        user = self._session.query(User).filter_by(**kwargs).first()
+        if not user:
+            raise NoResultFound
+        return user
 
     def update_user(self, user_id: int, **kwargs: Dict) -> None:
         """Method to update a user in a database"""
