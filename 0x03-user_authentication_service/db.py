@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
-from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.orm.exc import NoResultFound, InvalidRequestError
 from user import Base, User
 
 
@@ -44,10 +44,13 @@ class DB:
 
     def find_user_by(self, **kwargs: Dict):
         """Method to find a user using keyword filters"""
-        user = self._session.query(User).filter_by(**kwargs).first()
-        if not user:
-            raise NoResultFound
-        return user
+        try:
+            user = self._session.query(User).filter_by(**kwargs).first()
+            if not user:
+                raise NoResultFound
+            return user
+        except Exception:
+            raise InvalidRequestError
 
     def update_user(self, user_id: int, **kwargs: Dict) -> None:
         """Method to update a user in a database"""
