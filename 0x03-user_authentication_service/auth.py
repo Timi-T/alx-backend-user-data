@@ -33,13 +33,15 @@ class Auth:
 
     def register_user(self, email: str, password: str) -> TypeVar('User'):
         """Method to register a user"""
-        try:
-            self._db.find_user_by(email=email)
-            raise ValueError("User {} already exists".format(email))
-        except NoResultFound:
-            hashed_pw = _hash_password(password)
-            self._db.add_user(email, hashed_pw)
-            return self._db.find_user_by(email=email)
+        if email and password:
+            try:
+                self._db.find_user_by(email=email)
+                raise ValueError("User {} already exists".format(email))
+            except NoResultFound:
+                hashed_pw = _hash_password(password)
+                self._db.add_user(email, hashed_pw)
+                return self._db.find_user_by(email=email)
+        return None
 
     def valid_login(self, email: str, password: str) -> bool:
         """Validate a user credentials for login"""
