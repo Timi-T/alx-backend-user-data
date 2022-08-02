@@ -45,6 +45,8 @@ class DB:
 
     def find_user_by(self, **kwargs: Dict) -> User:
         """Method to find a user using keyword filters"""
+        if not kwargs:
+            raise NoResultFound
         attr = ['id', 'email', 'hashed_password', 'session_id', 'reset_token']
         for k, v in kwargs.items():
             if k not in attr:
