@@ -10,6 +10,7 @@ from auth import Auth
 app = Flask(__name__)
 AUTH = Auth()
 
+
 @app.route("/", methods=['GET'], strict_slashes=False)
 def home():
     """Basic payload response"""
@@ -67,6 +68,7 @@ def profile():
             return jsonify({"email": user.email}), 200
         else:
             return abort(403)
+
 
 @app.route("/reset_password", methods=['POST'], strict_slashes=False)
 def get_reset_password_token():
