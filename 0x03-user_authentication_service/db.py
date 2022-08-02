@@ -37,10 +37,10 @@ class DB:
         user = User()
         user.email = email
         user.hashed_password = hashed_password
-        self._session.add(user)
-        self._session.commit()
-        self._session.close_all()
-        return self._session.query(User).filter_by(email=email).first()
+        self.__session.add(user)
+        self.__session.commit()
+        self.__session.close_all()
+        return self.__session.query(User).filter_by(email=email).first()
 
     def find_user_by(self, **kwargs: Dict):
         """Method to find a user using keyword filters"""
