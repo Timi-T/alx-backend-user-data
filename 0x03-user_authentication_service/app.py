@@ -4,6 +4,7 @@ Basic flask application
 """
 
 from flask import Flask, jsonify, request, make_response, abort, redirect
+from flask import url_for
 from auth import Auth
 
 
@@ -53,7 +54,7 @@ def logout():
         try:
             user = AUTH.get_user_from_session_id(session_id)
             AUTH.destroy_session(user.id)
-            return redirect("/")
+            return redirect(url_for(''))
         except Exception:
             return abort(403)
 
