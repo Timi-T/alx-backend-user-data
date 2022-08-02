@@ -61,4 +61,4 @@ class DB:
             self._session.add(user)
             self._session.commit()
         except NoResultFound:
-            raise ValueError
+            return None
