@@ -4,7 +4,6 @@
 
 from typing import Dict, TypeVar
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from sqlalchemy.orm.exc import NoResultFound
@@ -46,11 +45,11 @@ class DB:
     def find_user_by(self, **kwargs: Dict) -> User:
         """Method to find a user using keyword filters"""
         if not kwargs:
-            raise InvalidRequestError()
+            raise InvalidRequestError
         attr = ['id', 'email', 'hashed_password', 'session_id', 'reset_token']
         for k, v in kwargs.items():
             if k not in attr:
-                raise InvalidRequestError()
+                raise InvalidRequestError
         user = self._session.query(User).filter_by(**kwargs).first()
         if not user:
             raise NoResultFound
