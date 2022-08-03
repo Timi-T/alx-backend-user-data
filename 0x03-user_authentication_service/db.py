@@ -4,6 +4,7 @@
 
 from typing import Dict, TypeVar
 from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
 from sqlalchemy.orm.exc import NoResultFound
@@ -50,7 +51,7 @@ class DB:
         for k, v in kwargs.items():
             if k not in attr:
                 raise InvalidRequestError
-        user = self._session.query(User).filter_by(**kwargs).first()
+        user = self.__session.query(User).filter_by(**kwargs).first()
         if not user:
             raise NoResultFound
         return user
