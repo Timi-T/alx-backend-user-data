@@ -21,8 +21,8 @@ def home():
 @app.route("/users", methods=['POST'], strict_slashes=False)
 def users():
     """Endpoint to register a user"""
-    email = request.json.get('email')
-    password = request.json.get('password')
+    email = request.form.get('email')
+    password = request.form.get('password')
     try:
         AUTH.register_user(email, password)
         return jsonify({"email": email,
