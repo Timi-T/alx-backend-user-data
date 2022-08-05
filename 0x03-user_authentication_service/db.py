@@ -43,7 +43,7 @@ class DB:
             self._session.commit()
             return self._session.query(User).filter_by(email=email).first()
 
-    def find_user_by(self, **kwargs: Dict) -> User:
+    def find_user_by(self, **kwargs) -> User:
         """Method to find a user using keyword filters"""
         if not kwargs:
             raise InvalidRequestError
@@ -51,7 +51,7 @@ class DB:
         for k, v in kwargs.items():
             if k not in attr:
                 raise InvalidRequestError
-        user = self.__session.query(User).filter_by(**kwargs).first()
+        user = self._session.query(User).filter_by(**kwargs).first()
         if not user:
             raise NoResultFound
         return user
