@@ -31,7 +31,7 @@ class Auth:
         """Constructor method"""
         self._db = DB()
 
-    def register_user(self, email: str, password: str) -> TypeVar('User'):
+    def register_user(self, email: str, password: str) -> User:
         """Method to register a user"""
         if email and password:
             try:
